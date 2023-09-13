@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using BookStore.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,24 +21,6 @@ namespace BookStore.Authors
         {
             var dbSet = await GetDbSetAsync();
             return await dbSet.FirstOrDefaultAsync(author => author.Name == name);
-        }
-
-        public async Task<List<Author>> GetListAsync(
-            int skipCount,
-            int maxResultCount,
-            string sorting,
-            string filter = null)
-        {
-            var dbSet = await GetDbSetAsync();
-            return await dbSet
-                .WhereIf(
-                    !filter.IsNullOrWhiteSpace(),
-                    author => author.Name.Contains(filter)
-                    )
-                .OrderBy(sorting)
-                .Skip(skipCount)
-                .Take(maxResultCount)
-                .ToListAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookStore.Authors;
+using System;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace BookStore.Books
@@ -6,6 +7,8 @@ namespace BookStore.Books
     public class Book : AuditedAggregateRoot<Guid>
     {
         public Guid AuthorId { get; set; }
+
+        public Author Author { get; set; }
 
         public string Name { get; set; }
 

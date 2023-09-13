@@ -1,12 +1,11 @@
 ﻿using BookStore.Books;
 using BookStore.Permissions;
-using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -14,7 +13,6 @@ using Volo.Abp.Domain.Repositories;
 
 namespace BookStore.Authors
 {
-    [Authorize(BookStorePermissions.Authors.Default)]
     public class AuthorAppService :
     CrudAppService<
         Author, //The Author entity
@@ -45,7 +43,6 @@ namespace BookStore.Authors
             DeletePolicyName = BookStorePermissions.Authors.Delete;
         }
 
-        [Authorize(BookStorePermissions.Authors.Create)]
         public override async Task<AuthorDto> CreateAsync(CreateAuthorDto input)
         {
             foreach (var bookDto in input.Books)
@@ -83,7 +80,6 @@ namespace BookStore.Authors
             return ObjectMapper.Map<Author, AuthorDto>(author);
         }
 
-        [Authorize(BookStorePermissions.Authors.Edit)]
         public override async Task<AuthorDto> UpdateAsync(Guid id, UpdateAuthorDto input)
         {
             var author = await _authorRepository.GetAsync(id);
@@ -113,6 +109,34 @@ namespace BookStore.Authors
             await _authorRepository.UpdateAsync(author);
 
             return ObjectMapper.Map<Author, AuthorDto>(author);
+        }
+
+        public override async Task<PagedResultDto<AuthorDto>> GetListAsync(GetAuthorListDto input)
+        {
+            //Get the IQueryable<Book> from the repository
+            var queryable = await _authorRepository.GetQueryableAsync();
+
+            Expression<Func<Author,bool>> filter = author => true;
+
+            if (!string.IsNullOrEmpty(input.Filter))
+                filter = author => author.Name.Contains(input.Filter);
+            //Paging
+            queryable = queryable
+                .Where(filter)
+                .OrderBy(input.Sorting ?? nameof(Author.Name))
+                .Skip(input.SkipCount)
+                .Take(input.MaxResultCount);
+
+            //Execute the query and get a list
+            var authors = await AsyncExecuter.ToListAsync(queryable);
+
+            //Get the total count with another query
+            var totalCount = await _authorRepository.CountAsync(filter);
+
+            return new PagedResultDto<AuthorDto>(
+                totalCount,
+                ObjectMapper.Map<List<Author>, List<AuthorDto>>(authors)
+            );
         }
     }
 }

@@ -7,16 +7,12 @@ using Volo.Abp.Application.Services;
 
 namespace BookStore.Authors
 {
-    public interface IAuthorAppService : IApplicationService
+    public interface IAuthorAppService :
+        ICrudAppService< //Defines CRUD methods
+        AuthorDto, //Used to show books
+        Guid, //Primary key of the book entity
+        GetAuthorListDto, //Used for paging/sorting
+        CreateAuthorDto,UpdateAuthorDto> //Used to create/update a book
     {
-        Task<AuthorDto> GetAsync(Guid id);
-
-        Task<PagedResultDto<AuthorDto>> GetListAsync(GetAuthorListDto input);
-
-        Task<AuthorDto> CreateAsync(CreateAuthorDto input);
-
-        Task<AuthorDto> UpdateAsync(Guid id, UpdateAuthorDto input);
-
-        Task DeleteAsync(Guid id);
     }
 }

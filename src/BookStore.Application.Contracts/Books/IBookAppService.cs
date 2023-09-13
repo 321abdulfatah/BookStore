@@ -9,7 +9,7 @@ namespace BookStore.Books
         ICrudAppService< //Defines CRUD methods
         BookDto, //Used to show books
         Guid, //Primary key of the book entity
-        PagedAndSortedResultRequestDto, //Used for paging/sorting
+        GetBookListDto, //Used for paging/sorting
         CreateUpdateBookDto> //Used to create/update a book
     {
         Task<ListResultDto<AuthorLookupDto>> GetAuthorLookupAsync();

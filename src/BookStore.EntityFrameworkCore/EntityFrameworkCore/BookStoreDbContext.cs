@@ -87,7 +87,7 @@ public class BookStoreDbContext :
                 BookStoreConsts.DbSchema);
             b.ConfigureByConvention(); //auto configure for the base class props
             b.Property(x => x.Name).IsRequired().HasMaxLength(BookConsts.MaxNameLength);
-            b.HasOne<Author>().WithMany().HasForeignKey(x => x.AuthorId).IsRequired();
+            b.HasOne(x => x.Author).WithMany().HasForeignKey(x => x.AuthorId).IsRequired();
 
         });
 
