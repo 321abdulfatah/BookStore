@@ -1,0 +1,65 @@
+
+Creating the Server Side by ABP:
+
+1- run DbMigrator for init Database
+
+
+Inside the Custom folder (Entity Name) in the Domail layer : 
+
+	1- Add the Entity
+
+	2- Add the Exceptions
+
+	3- Add an Interface to the repository if there are additional things other than CRUD
+
+	4- Add a Manager if there are conditions that must be met when applying CRUD from the database
+
+	5- Add a seed data
+
+
+Inside the Custom folder (Entity Name) in the Domail Shared layer : 
+
+	1- Add the enums
+
+	2- Add the constants 
+
+
+Inside the Custom folder (Entity Name) in the Entity Framework layer :
+
+	1- Add Implement interface of the repository
+
+
+Inside the entity frame work folder in the entity frame work layer
+	
+	1- Add the DbSets for entities
+
+	2- Add mapping the Entity to a Database Table 
+
+
+Inside the Entity Framework layer:
+
+	1- Add a new migration 
+
+
+Inside the Custom folder (Entity Name) in the Applocation Contracts layer
+
+	1- Add Dtos
+
+	2- Add Service interface
+
+
+Inside the Permissions folder in the Applocation Contracts layer
+
+	1- Add Permission Names
+	
+	2- Add Permission Definitions
+
+
+Inside the Custom folder (Entity Name) in the Applocation layer
+	
+	1- Add Service
+
+
+Inside the Applocation layer	
+
+	1- Add the mapping from the Dtos object to the entity	

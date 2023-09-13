@@ -1,0 +1,21 @@
+Inside the authors folder in the application contracts layer
+
+1- Create a BookLookupDto in the Author folder containing the specified fields (name, genre, publication date, price) for the entered books
+
+2- Modify CreateUpdateAuhorDto by adding ICollection<BookLookupDto> books
+
+Inside the authors folder in the application layer
+
+1- AuthorAppService acquired from CrudAppService and IAuthorAppService
+
+2- Add a book repository
+
+3- Override CreateAsync
+	
+	1- Check if any existing book by other author does not create author by exception
+	2- If the books are valid, the creation of the author and the books
+
+4- override UpdateAsync
+	
+	1- Check if any existing book by another author does not update the author by exception
+	2- If the books are valid, the creation of the author and the books
